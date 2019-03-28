@@ -5,6 +5,20 @@
 
 using namespace Rcpp;
 
+// gpu_rnorm
+std::vector<double> gpu_rnorm(int n, int seed, double mu, double sigma);
+RcppExport SEXP _examplePkgCuda_gpu_rnorm(SEXP nSEXP, SEXP seedSEXP, SEXP muSEXP, SEXP sigmaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< double >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< double >::type sigma(sigmaSEXP);
+    rcpp_result_gen = Rcpp::wrap(gpu_rnorm(n, seed, mu, sigma));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_hello_world
 List rcpp_hello_world();
 RcppExport SEXP _examplePkgCuda_rcpp_hello_world() {
@@ -15,9 +29,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rcpp_thrust_version
+void rcpp_thrust_version();
+RcppExport SEXP _examplePkgCuda_rcpp_thrust_version() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_thrust_version();
+    return R_NilValue;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_examplePkgCuda_gpu_rnorm", (DL_FUNC) &_examplePkgCuda_gpu_rnorm, 4},
     {"_examplePkgCuda_rcpp_hello_world", (DL_FUNC) &_examplePkgCuda_rcpp_hello_world, 0},
+    {"_examplePkgCuda_rcpp_thrust_version", (DL_FUNC) &_examplePkgCuda_rcpp_thrust_version, 0},
     {NULL, NULL, 0}
 };
 
