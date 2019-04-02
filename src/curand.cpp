@@ -3,8 +3,8 @@
 #include <cuda.h>
 #include <curand.h>
 
-#define CUDA_CALL(x) do { if((x)!=cudaSuccess) {       \
-Rcpp::stop("Error at ",__FILE__,":",__LINE__,".\n");    \
+#define CUDA_CALL(x) do { if((x)!=cudaSuccess) {     \
+Rcpp::stop("Error at ",__FILE__,":",__LINE__,".\n"); \
 }} while(0)
   
 #define CURAND_CALL(x) do { if((x)!=CURAND_STATUS_SUCCESS) { \
