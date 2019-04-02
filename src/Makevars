@@ -1,0 +1,21 @@
+CUDA_HOME = /usr/local/cuda
+
+CUDA_CFLAGS := -Xcompiler -fpic -g -G -O3 --std=c++11 -Xcudafe --diag_suppress=code_is_unreachable
+
+PKG_CXXFLAGS += -I$(CUDA_HOME)/include
+PKG_LIBS += -L$(CUDA_HOME)/lib64 -lcudart -lcurand
+
+CU_SOURCES := $(wildcard *.cu)
+CU_OBJS    := $(patsubst %.cu, %.o, $(CU_SOURCES))
+CPP_SOURCES := $(wildcard *.cpp)
+CPP_OBJS    := $(patsubst %.cpp, %.o, $(CPP_SOURCES))
+
+OBJECTS = $(CU_OBJS) $(CPP_OBJS)
+
+all: examplePkgCuda.so
+
+examplePkgCuda.so: $(OBJECTS)
+
+%.o: %.cu
+	$(CUDA_HOME)/bin/nvcc $(CUDA_CFLAGS) $(ALL_CPPFLAGS) -c $< -o $@
+	
