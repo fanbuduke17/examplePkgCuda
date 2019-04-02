@@ -3,8 +3,8 @@
 #include <cuda.h>
 #include <curand.h>
 
-#define CUDA_CALL(x) do { if((x)!=cudaSuccess) {     \
-Rcpp::stop("Error at ",__FILE__,":",__LINE__,".\n"); \
+#define CUDA_CALL(x) do { if((x)!=cudaSuccess) {       \
+  Rcpp::stop("Error at ",__FILE__,":",__LINE__,".\n"); \
 }} while(0)
   
 #define CURAND_CALL(x) do { if((x)!=CURAND_STATUS_SUCCESS) { \
@@ -18,7 +18,7 @@ std::vector<double> curand_rnorm(int n, int seed, double mu, double sigma) {
   double* dev_data;
   std::vector<double> host_data(n);
   
-  CUDA_CALL(cudaMalloc((void **)&dev_data, n*sizeof(float)));
+  CUDA_CALL(cudaMalloc((void **)&dev_data, n*sizeof(double)));
   
   CURAND_CALL(curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_DEFAULT));
   
@@ -26,7 +26,7 @@ std::vector<double> curand_rnorm(int n, int seed, double mu, double sigma) {
   
   CURAND_CALL(curandGenerateNormalDouble(gen, dev_data, n, mu, sigma));
   
-  CUDA_CALL(cudaMemcpy(&(host_data[0]), dev_data, n * sizeof(float), cudaMemcpyDeviceToHost));
+  CUDA_CALL(cudaMemcpy(&(host_data[0]), dev_data, n * sizeof(double), cudaMemcpyDeviceToHost));
   
   /* Cleanup */
   CURAND_CALL(curandDestroyGenerator(gen));

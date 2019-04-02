@@ -13,3 +13,11 @@ rcpp_sum <- function(v) {
     .Call(`_examplePkgCuda_rcpp_sum`, v)
 }
 
+rcpp_thrust_version <- function() {
+    invisible(.Call(`_examplePkgCuda_rcpp_thrust_version`))
+}
+
+rcpp_gpu_sq_exp_cov <- function(d, sigma2 = 1, range = 1) {
+    .Call(`_examplePkgCuda_rcpp_gpu_sq_exp_cov`, d, sigma2, range)
+}
+
